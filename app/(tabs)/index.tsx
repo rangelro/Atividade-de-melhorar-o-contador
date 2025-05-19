@@ -1,75 +1,162 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function ContadorSimples() {
+  // Estado para armazenar o valor do contador
+  const [contador, setContador] = useState(0);
 
-export default function HomeScreen() {
+  // Funções para manipular o contador usando declaração de função normal
+  function aumentar() {
+    setContador(contador + 1);
+  }
+
+  function diminuir() {
+    setContador(contador - 1);
+  }
+
+  function resetar() {
+    setContador(0);
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      {/* Título do App */}
+      <View style={styles.conteudo}>
+        <Text style={styles.titulo}>Contador App</Text>
+
+        {/* Valor do Contador */}
+        <View style={styles.contadorContainer}>
+          <Text style={styles.contador}>{contador}</Text>
+        </View>
+
+        {/* Botões de Controle - Usando o componente Button padrão */}
+        <View style={styles.botoes}>
+          <TouchableOpacity style={styles.botaoDiminuir} onPress={diminuir}>
+            <Text style={styles.botaoTexto}>-</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.botaoReset} onPress={resetar}>
+            <Text style={styles.botaoTexto}>Reset</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.botaoAumentar} onPress={aumentar}>
+            <Text style={styles.botaoTexto}>+</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+      {/*Rodapé*/}
+      <View  style={styles.rodape}>
+        <Text style={styles.rodapeTexto}>Aprenda React Native com Expo!</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  conteudo:{
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  titulo: {
+    fontSize: 32,
+    fontWeight:'bold',
+    marginBottom: 60,
+  },
+
+
+  contador: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color:'#000',
+  },
+  contadorContainer:{
+    width: 120,            
+    height: 120,           
+    borderRadius: 60,      
+    backgroundColor: '#fff', 
+    justifyContent: 'center',
+    alignItems:'center',
+    marginBottom:20,
+
+    elevation:2, //sombreamento no android
+    //sombreamento no IOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+
+
+  botoes: {
+    flexDirection: 'row',
+    width: '80%',
+    justifyContent: 'space-between',
+    marginTop:20,
+
+  },
+  botaoTexto: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  botaoAumentar:{
+    width: 60,            
+    height: 60,           
+    borderRadius: 30,
+    backgroundColor:'#1EF787',
+    justifyContent:'center',
+    alignItems:'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation:2, 
+  },
+  botaoDiminuir:{
+    width: 60,            
+    height: 60,           
+    borderRadius: 30,
+    backgroundColor:'red',
+    justifyContent:'center',
+    alignItems:'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation:2, 
+  },
+  botaoReset:{
+    width: 60,            
+    height: 60,           
+    borderRadius: 30,
+    backgroundColor:'#1ED5F7',
+    justifyContent:'center',
+    alignItems:'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation:2, 
+  },
+
+
+  rodape:{
+    height: 80, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:'100%',
+
+  },
+  rodapeTexto:{
+    color: '#000',
+    fontSize: 12,
   },
 });
